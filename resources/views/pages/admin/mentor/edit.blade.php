@@ -50,9 +50,6 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <input type="hidden" class="form-control" value="1" name="role">
-                                </div>
-                                <div class="mb-3">
                                     <label for="division" class="form-label">Division:</label>
                                     <select id="division" name="division" class="form-control @error('division') @enderror">
                                         @foreach($divisions as $division)

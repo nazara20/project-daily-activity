@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Division;
 use Illuminate\Http\Request;
@@ -52,14 +53,26 @@ class MentorController extends Controller
             'confirmPassword' => "required_with:password|same:password"
         ]);
 
-        $mentors = User::create([
+        $mentor = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
             'division_id' => $request->division,
-            'role_id' => $request->role,
-            'isActive' => true
+            'is_active' => true
         ]);
+
+
+        $role = Role::where('name', 'mentor')->OrWhere('name', 'Mentor')->first();
+        if($role){
+            $mentor->update([
+                'role_id' => $role->id
+            ]);
+        }else{ 
+            Alert::warning('Warning', 'Role Mentor tidak ditemukan');
+            return redirect()->route('mentee.index');
+        }
+
+        
         Alert::success('Success', 'Data Berhasil ditambahkan');
         return redirect()->route('mentor.index');
     }
@@ -92,9 +105,9 @@ class MentorController extends Controller
         $mentors = User::findOrFail($id);
 
 
-        if($request->isActive === "0"){
+        if($request->is_active === "0"){
             $mentors->update([
-                'isActive' => true,
+                'is_active' => true,
             ]);
         }else{
             $request->validate([
@@ -109,7 +122,6 @@ class MentorController extends Controller
                 'email' => $request->email,
                 // 'password' => $request->password,
                 'division_id' => $request->division,
-                'role_id' => $request->role,
             ]);
         }
 

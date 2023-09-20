@@ -42,7 +42,7 @@ class MenteeController extends Controller
             'confirmPassword' => "required_with:password|same:password"
         ]);
 
-        $mentees = User::create([
+        $mentee = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
@@ -52,7 +52,7 @@ class MenteeController extends Controller
 
         $role = Role::where('name', 'mentee')->OrWhere('name', 'Mentee')->first();
         if($role){
-            $mentees->update([
+            $mentee->update([
                 'role_id' => $role->id
             ]);
         }else{ 
@@ -109,7 +109,6 @@ class MenteeController extends Controller
                 'email' => $request->email,
                 // 'password' => $request->password,
                 'division_id' => $request->division,
-                'role_id' => $request->role,
             ]);
         }
         
