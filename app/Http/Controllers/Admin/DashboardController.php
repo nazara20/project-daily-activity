@@ -10,7 +10,7 @@ class DashboardController extends Controller
 {
 
     public function index(){
-        $users = User::get();
+        $users = User::limit('5')->orderByDesc('created_at')->get();
 
         $total_mentee = User::WhereHas('role', function($query){
             $query->where('name', 'Mentee')->orWhere('name', 'mentee');

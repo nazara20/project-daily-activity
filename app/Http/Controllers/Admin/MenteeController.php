@@ -123,6 +123,8 @@ class MenteeController extends Controller
     public function destroy(string $id)
     {
         $mentees = User::findOrFail($id);
+
+        
         
         $mentees->delete();
 
