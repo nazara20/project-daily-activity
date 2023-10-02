@@ -79,7 +79,7 @@ class User extends Authenticatable
 
     public function getMenteeCountAttribute()
     {
-    //    get mentee where id
         return $this->mentors()->count();
     }
+    
 }

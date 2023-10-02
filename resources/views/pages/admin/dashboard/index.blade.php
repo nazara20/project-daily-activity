@@ -53,7 +53,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
-                            Chart js
+                            <canvas id="myChart"></canvas>
                         </div>
                     </div>
                 </div>
@@ -69,7 +69,17 @@
                     <table class="table">
                         @forelse ($users as $user)
                             <tr>
-                                <td class="fw-bold">{{ $user->name }}</td>
+                                <td class="fw-bold">
+                                    {{ $user->name }}<br/>
+                                <small class="text-muted">
+                                  @if ($user->role->name == 'Mentor' || $user->role->name == 'mentor')
+                                      <span class="badge bg-primary">Mentor</span>
+                                  @elseif($user->role->name == 'Mentee' || $user->role->name == 'mentee')
+                                      <span class="badge bg-success">Mentee</span>
+                                  @endif
+                                    Role {{ $user->role->name }}
+                                </small>
+                                </td>
                                 <td>
                                     <small>
                                         ditambahkan pada tanggal
@@ -86,4 +96,42 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    
+    <script>
+        const ctx = document.getElementById('myChart');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: @json($months),
+                datasets: [
+                    {
+                        label: 'Mentor',
+                        data: @json($mentorData),
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Mentee',
+                        data: @json($menteeData),
+                        backgroundColor: 'rgba(0, 128, 0, 0.2)',
+                        borderColor: 'rgba(0, 128, 0, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+    @endpush
 @endsection
