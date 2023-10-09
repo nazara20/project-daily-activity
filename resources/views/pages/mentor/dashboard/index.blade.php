@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+        <h4>Dashboard Mentor</h4>
         <div class="row">
             <div class="col-md-7">
                 <div class="row">
@@ -39,14 +40,7 @@
                             <td>Nama</td>
                             <td>Tanggal Dibuat</td>
                         </tr>
-                        @forelse ($users as $user)
-                        <tr>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ \Carbon\Carbon::parse($user->created_at)->isoformat('DD MMMM YYYY'); }}</td>
-                        </tr>
-                        @empty
-                            
-                        @endforelse
+                        
                     </table>
                 </div>
             </div>
