@@ -38,7 +38,7 @@
                                         @elseif (Auth::user()->role->name == 'mentor' || Auth::user()->role->name == 'Mentor')
                                             <a href="{{ route('mentor.dashboard') }}" class="btn btn-sm btn-outline-secondary">Back to Dashboard</a>
                                         @elseif (Auth::user()->role->name == 'mentee' || Auth::user()->role->name == 'Mentee')
-                                            <a href="{{ route('home') }}" class="btn btn-sm btn-outline-secondary">Back to Dashboard</a>
+                                            <a href="{{ route('mentee.dashboard') }}" class="btn btn-sm btn-outline-secondary">Back to Dashboard</a>
                                         @endif
                                         <br /><br />
                                         <a class="" href="{{ route('logout') }}"

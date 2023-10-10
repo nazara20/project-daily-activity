@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Mentor;
 
-use App\Http\Controllers\Controller;
+use App\Models\Mentee;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        return view('pages.mentor.dashboard.index');
+        $total_mentee = Mentee::where('mentor_id', Auth::user()->id)->count();
+        return view('pages.mentor.dashboard.index', compact('total_mentee'));
     }
 }

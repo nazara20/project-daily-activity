@@ -44,6 +44,7 @@ Route::resource('mentee', MenteeController::class);
 
 
 require __DIR__.'/role/mentor.php';
+require __DIR__.'/role/mentee.php';
 
 
 

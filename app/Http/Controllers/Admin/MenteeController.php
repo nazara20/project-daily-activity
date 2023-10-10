@@ -14,7 +14,10 @@ class MenteeController extends Controller
     //
     public function index()
     {
-        $mentees = User::where('role_id', 2)->get();
+        $mentees = User::WhereHas('role', function($query){
+            $query->where('name', 'Mentee')->orWhere('name', 'mentee');
+        })->get();
+
         
         return view('pages.admin.mentee.index', compact('mentees'));
     }

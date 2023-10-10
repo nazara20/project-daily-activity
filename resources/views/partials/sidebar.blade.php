@@ -17,7 +17,7 @@
             @endif
 
             @if (Auth::user()->role->name == 'mentee' || Auth::user()->role->name == 'Mentee')
-            @include('partials.sidebar-role.sidebar-menter')
+            @include('partials.sidebar-role.sidebar-mentee')
             @endif
         </ul>
     </div>
