@@ -30,8 +30,17 @@
         </div>
         <hr>
     </div>
-    <form action="{{ route('mentor.profile.update', Auth::user()->id) }}" method="post">
-        @csrf
+
+        
+    
+        @if (Auth::user()->role->name == 'Mentor' || Auth::user()->role->name == 'mentor')
+        <form action="{{ route('mentor.profile.update', Auth::user()->id) }}" method="post">
+            @elseif (Auth::user()->role->name == 'Mentee' || Auth::user()->role->name == 'mentee')
+        <form action="{{ route('mentee.profile.update', Auth::user()->id) }}" method="post">
+        @endif
+
+ 
+            @csrf
         @method('PUT')
         <div class="card-body p-5">
             <div class="row">
@@ -52,7 +61,7 @@
                 <div class="col-md-6 mb-4">
                     <label class="form-label fw-bold">Divisi</label>
                     <input class="form-control" required type="text" name="role" disabled
-                        value="{{ Auth::user()->division->name }}">
+                        value="{{ Auth::user()->division->name ?? '-' }}">
                 </div>
             </div>
 

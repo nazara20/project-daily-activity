@@ -42,14 +42,21 @@
             </div>
             <div class="col-md-6 mb-4">
                 <label class="form-label fw-bold">Divisi</label>
-                <div>{{ Auth::user()->division->name }}</div>
+                <div>{{ Auth::user()->division->name ?? '-' }}</div>
             </div>
         </div>
         <div class="d-flex justify-content-end">
+            @if (Auth::user()->role->name == 'Mentor' || Auth::user()->role->name == 'mentor')
             <a href="{{ route('mentor.profile.edit', Auth::user()->id) }}" class="btn btn-sm btn-outline-secondary px-4">
              <i data-feather="edit"></i>
                 Edit Profile
             </a>
+            @elseif (Auth::user()->role->name == 'Mentee' || Auth::user()->role->name == 'mentee')
+            <a href="{{ route('mentee.profile.edit', Auth::user()->id) }}" class="btn btn-sm btn-outline-secondary px-4">
+                <i data-feather="edit"></i>
+                   Edit Profile
+               </a>
+            @endif
         </div>
     </div>
 </div>
