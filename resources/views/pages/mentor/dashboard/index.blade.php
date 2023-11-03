@@ -13,8 +13,8 @@
                                         <i data-feather="activity"></i>
                                     </div>
                                     <div class="align-self-center">
-                                        <h1 class="h5 mb-0">Total Aktifitas</h1>
-                                        <h4 class="fw-bold">0</h3>
+                                        <h1 class="h5 mb-0">Total Aktifitas Mentee</h1>
+                                        <h4 class="fw-bold">{{ $total_aktifitas }}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -40,7 +40,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                Chart js
+                                <canvas id="myChart"></canvas>
                             </div>
                         </div>
                     </div>
@@ -52,13 +52,63 @@
                         Log Aktifitas Mentee
                     </div>
                     <table class="table">
+                        @forelse ($activities as $activity)
+                            <tr>
+                                <td class="fw-bold">
+                                    {{ $activity->user->name }}<br/>
+                                <small class="text-muted">
+                                 
+                                </small>
+                                </td>
+                                <td>
+                                    <small>
+                                        Menambahkan Aktifitas pada tanggal
+                                        <br />
+                                       <b> {{ \Carbon\Carbon::parse($activity->created_at)->isoformat('DD MMMM YYYY') }}</b>
+                                    </small>
+                                </td>
+                            </tr>
+                        @empty
                         <tr>
-                            <td>Nama</td>
-                            <td>Tanggal Dibuat</td>
+                            <td colspan="2" class="text-center fw-bold">
+                                Tidak ada data
+                            </td>
                         </tr>
-                        
+                        @endforelse
                     </table>
                 </div>
             </div>
         </div>
+
+        @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    
+        <script>
+            const ctx = document.getElementById('myChart');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: @json($months),
+                    datasets: [
+                        {
+                            label: 'Aktifitas',
+                            data: @json($activityData),
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                       
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+        @endpush
 @endsection

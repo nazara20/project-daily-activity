@@ -19,8 +19,69 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h4>Halaman ini akan segera dibuat</h4>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama</th>
+                                    <th>Tanggal</th>
+                                    <th>Screenshoot</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($activities as $activity)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $activity->user->name }}</td>
+                                    <td>{{ $activity->date_activity }}</td>
+                                    <td>
+                                        <a href="{{ asset('storage/activity/' . $activity->image) }}" target="_blank">
+                                            <img src="{{ asset('storage/activity/' . $activity->image) }}" alt="Screenshoot" width="100">
+                                        </a>
+                                    </td>
+                                    <td>{{ $activity->description }}</td>
+                                    <td>
+                                        @if ($activity->is_approved == false)
+                                            <span class="badge bg-warning">Belum Disetujui</span>
+                                        @else
+                                            <span class="badge bg-success">Disetujui</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                        @if ($activity->is_approved == false)
+                                            <form action="{{ route('mentor.activity.approve', $activity->id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="btn btn-sm btn-success">
+                                                    <i data-feather="check"></i>
+                                                    Approve
+                                                </button>
+                                            </form>
+                                        @else
+                                        <form action="{{ route('mentor.activity.approve', $activity->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <button type="submit" class="btn btn-sm btn-warning">
+                                                Batal Approve
+                                            </button>
+                                        </form>
+                                        @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                                @empty
+                                    
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>

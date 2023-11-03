@@ -14,7 +14,7 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        $activities = Activity::where('user_id', auth()->user()->id)->get();
+        $activities = Activity::where('user_id', auth()->user()->id)->orderBy('created_at', 'DESC')->get();
 
         $latestActivity = Activity::where('user_id', auth()->user()->id)->latest()->first();
 

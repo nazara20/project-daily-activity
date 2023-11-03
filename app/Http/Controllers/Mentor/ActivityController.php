@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Mentor;
 
-use App\Http\Controllers\Controller;
+use App\Models\Activity;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ActivityController extends Controller
 {
@@ -12,54 +15,27 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        return view('pages.mentor.activity.index');
+        $activities = Activity::
+        with('user')
+        ->whereHas('user', function($query){
+            $query->whereHas('mentees', function($query){
+                $query->where('mentor_id', Auth::user()->id);
+            });
+        })->orderBy('created_at', 'DESC')->get();
+
+        return view('pages.mentor.activity.index', compact('activities'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function approve(string $id)
     {
-        //
-    }
+        $activity = Activity::findOrFail($id);
+        
+        $activity->update([
+            'is_approved' => !$activity->is_approved,
+        ]);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        Alert::success('Sukses', 'Data berhasil diapprove');
+        return redirect()->route('mentor.activity.index');
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+    
 }

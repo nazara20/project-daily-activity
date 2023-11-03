@@ -53,13 +53,14 @@
                                     </td>
                                     <td>{{ $activity->description }}</td>
                                     <td>
-                                        @if ($activity->status == false)
+                                        @if ($activity->is_approved == false)
                                             <span class="badge bg-warning">Belum Disetujui</span>
                                         @else
                                             <span class="badge bg-success">Disetujui</span>
                                         @endif
                                     </td>
                                     <td>
+                                        @if ($activity->is_approved == false)
                                         <div class="d-flex gap-2">
                                             <a href="{{ route('mentee.activity.edit', $activity->id) }}" class="btn btn-sm btn-success">
                                                 <i data-feather="edit"></i>
@@ -73,6 +74,7 @@
                                                     Hapus
                                                 </button>
                                             </form>
+                                        @endif
                                         </div>
                                     </td>
                                 </tr>

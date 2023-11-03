@@ -14,6 +14,7 @@ Route::middleware(['auth'])->prefix('mentor')->name('mentor.')->group(function (
     
     Route::get('mentee', [MenteeController::class, 'index'])->name('mentee.index');
     Route::get('activity', [ActivityController::class, 'index'])->name('activity.index');
+    Route::put('activity/{id}', [ActivityController::class, 'approve'])->name('activity.approve');
    
     Route::resource('profile', ProfileController::class)->except(['create', 'store', 'show', 'destroy']);
 
